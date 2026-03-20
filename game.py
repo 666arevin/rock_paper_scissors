@@ -1,41 +1,36 @@
 from random import randint
+from pathlib import Path
+import json
 
-data = {
-    0: "rock",
-    1: "paper",
-    2: "scissors"
-}
-trans_data = {
-    "R": "rock",
-    "P": "paper",
-    "S": "scissors"
-}
-en_ru_trans = {
-    "rock": "камень",
-    "paper": "paper",
-    "scissors": "ножницы"
-}
+# создаем фиксированные пути
+base_path = Path(__file__).resolve().parent
+metadata_path = base_path / "metadata" / "data.json"
 
+# загружаем данные
+with open(metadata_path, "r", encoding="utf-8") as f:
+    metadata = json.load(f)
 
-data2 = {
-        "rock": "scissors",
-        "paper": "rock",
-        "scissors": "paper"
-    }
+gen_data = metadata.get("generation_data")
+abbreviations_data = metadata.get("abbreviations_data")
+data = metadata.get("data")
 
-def help_to_win(user_inp: str) -> None:
+def help_to_win(user_inp: str) -> str:
     """
     Функция, которая немного подмещивает результаты,
     помогая игроку чаще выигрывать.
     """
+    global data
     print("помогаю выиграть.")
-    res = data2.get(user_inp)
+    res = data.get(user_inp)
     return res
 
 def winner_selection(user_inp: str, computer_inp: str) -> str:
-    """Бдует определять кто выиграл и формировать строку на вывод."""
-    user_data = data2.get(user_inp)
-    comp_data = data2.get(computer_inp)
+    """
+    Определяет победителя и возвращает фразу.
+    """
+    global data
+    user_data = data.get(user_inp)
+    comp_data = data.get(computer_inp)
     print(f"Пользователь - {user_inp}, компьютер - {computer_inp}")
     if user_data == computer_inp:
         return "Выиграл пользователь"
@@ -46,17 +41,17 @@ def winner_selection(user_inp: str, computer_inp: str) -> str:
     
 
 def rps_choise(user_inp: str) -> str:
-    """Обрабатывает вывбор пользователя и компьютера,
+    """Обрабатывает выбор пользователя и компьютера,
     и выдает результат.
     """
-    global randint, data, trans_data
-    comp_choise = randint(0, 3)
-    user_choise = trans_data.get(user_inp) 
+    global randint, gen_data, abbreviations_data
+    comp_choise_int = randint(0, 3)
+    user_choise = abbreviations_data.get(user_inp) # преобразую сокращения
+    comp_choise = gen_data.get(comp_choise_int) # проеобразуем выбор компьютера
 
-    if comp_choise == 3:
-        help_to_win(user_choise)
-    else:
-        comp_choise = data.get(comp_choise) # преобразую сокращения # проеобразуем выбор компьтера
-        res = winner_selection(user_choise, comp_choise)
+    if comp_choise_int == 3:
+        comp_choise = help_to_win(user_choise)
+
+    res = winner_selection(user_choise, comp_choise)
     return res
 

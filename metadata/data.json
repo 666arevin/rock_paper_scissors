@@ -15,8 +15,8 @@
         "scissors": "ножницы"
 },
     "data": {
-        "rock": "камень",
-        "paper": "paper",
-        "scissors": "ножницы"
-}
+        "rock": "scissors",
+        "paper": "rock",
+        "scissors": "paper"
+    }
 }

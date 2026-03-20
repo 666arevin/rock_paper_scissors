@@ -19,10 +19,10 @@ def game():
             print(res)
             if res == "Ничья, играем еще раз)":
                 continue
-            inp = input("Сыграем еще раз? :) (да или нет)\n> ")
-            if inp.lower() == "да":
+            inp = input("Сыграем еще раз? :) (yes or no)\n> ")
+            if inp.lower() == "yes":
                 continue
-            elif inp.lower() == "нет":
+            elif inp.lower() == "no":
                 print("Было приятно поиграть с тобой :)")
                 break
             else:
