@@ -36,7 +36,7 @@ def winner_selection(user_inp: str, computer_int: str) -> str:
     """Бдует определять кто выиграл и формировать строку на вывод."""
     user_data = data2.get(user_inp)
     comp_data = data2.get(computer_int)
-    if user_data == computer_int
+    # if user_data == computer_int
 
 def rps_choise(user_inp: str) -> str:
     global randint, data, trans_data
