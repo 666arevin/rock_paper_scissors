@@ -51,12 +51,12 @@ def rps_choise(user_inp: str) -> str:
     """
     global randint, data, trans_data
     comp_choise = randint(0, 3)
-    user_choise = trans_data.get(user_inp) # преобразую сокращения
-    comp_choise = data.get(comp_choise) # проеобразуем выбор компьтера
+    user_choise = trans_data.get(user_inp) 
 
     if comp_choise == 3:
         help_to_win(user_choise)
     else:
+        comp_choise = data.get(comp_choise) # преобразую сокращения # проеобразуем выбор компьтера
         res = winner_selection(user_choise, comp_choise)
     return res
 
