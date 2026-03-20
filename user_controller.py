@@ -1,12 +1,14 @@
-from game import rps_choise
+from game import GameLogic
+from animations import loading
 
 # trans_data ={
 #     "rock": "камень",
 #     "paper": "paper",
 #     "scissors": ""
 # }
-
+game_logic = GameLogic()
 def game():
+    global game_logic
     check = ["R", "P", "S"]
     while True:
         inp = input("Выбери R - камень, P - бумага, S - ножницы.\n> ")
@@ -15,19 +17,23 @@ def game():
         elif inp.upper() not in check:
             print("Нет так не честно, такого варианта нет.")
         else:
-            res = rps_choise(inp)
+            loading()
+            res = game_logic.rps_choise(inp)
             print(res)
             if res == "Ничья, играем еще раз)":
                 continue
-            inp = input("Сыграем еще раз? :) (yes or no)\n> ")
-            if inp.lower() == "yes":
-                continue
-            elif inp.lower() == "no":
-                print("Было приятно поиграть с тобой :)")
+            while True:
+                inp = input("Сыграем еще раз? :) (yes or no)\n> ")
+                if inp.lower() == "yes":
+                    break
+                elif inp.lower() == "no":
+                    print("Было приятно поиграть с тобой :)")
+                    break
+                else:
+                    print("Не опнял тебя :(")
+                    continue
+            if inp.lower() == "no":
                 break
-            else:
-                print("Не опнял тебя :(")
-                continue
 
 def start_menu():
     """
