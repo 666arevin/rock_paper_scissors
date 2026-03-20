@@ -1,1 +1,0 @@
-C:\Users\arevi\Yandex.Disk\Computer STO_ORMIK\Documents\Програмирование\game_RPS\game.py

@@ -1,0 +1,22 @@
+{
+    "generation_data" : {
+        "0": "rock",
+        "1": "paper",
+        "2": "scissors"
+},
+    "abbreviations_data": {
+        "R": "rock",
+        "P": "paper",
+        "S": "scissors"
+},
+    "en_ru_trans": {
+        "rock": "камень",
+        "paper": "paper",
+        "scissors": "ножницы"
+},
+    "data": {
+        "rock": "камень",
+        "paper": "paper",
+        "scissors": "ножницы"
+}
+}
