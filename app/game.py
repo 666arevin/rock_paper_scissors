@@ -1,15 +1,15 @@
 from random import randint
 from pathlib import Path
 import json
-from encryption import current_user
+from encryption import load_current_user
 
 
 class GameLogic():
-    def __init__(self):
+    def __init__(self, current_user: str = None):
         # создаем фиксированные пути
         base_path = Path(__file__).resolve().parent
         metadata_path = base_path / "metadata" / "data.json"
-        self.score_data = base_path / "data" / "scores.json"
+        self.score_data_p = base_path / "data" / "scores.json"
 
         # загружаем данные
         with open(metadata_path, "r", encoding="utf-8") as f:
@@ -69,8 +69,8 @@ class GameLogic():
         comp_choise_int = str(randint(0, 3))
         user_choise = self.abbreviations_data.get(user_inp) # преобразую сокращения
         comp_choise = self.gen_data.get(comp_choise_int) # проеобразуем выбор компьютера
-
-        if comp_choise_int == 3:
+        
+        if comp_choise_int == "3":
             comp_choise = self.help_to_win(user_choise)
         if self.current_user == "guest":
             res = self.winner_selection_nosave(user_choise, comp_choise)
@@ -79,10 +79,10 @@ class GameLogic():
         return res
     
     def save_game_res(self, point: int):
-        with open(self.score_data, "r", encoding="utf-8") as f:
+        with open(self.score_data_p, "r", encoding="utf-8") as f:
             data = json.load(f)
         data[self.current_user].append(point)
 
-        with open(self.score_data, "w", encoding="utf-8") as f:
+        with open(self.score_data_p, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
 

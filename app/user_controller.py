@@ -5,7 +5,10 @@ import encryption
 import sys
 
 
-class AuthManager:
+class AuthManager():
+    def __init__(self, game_logic):
+        self.game_logic = game_logic
+
     def registration(self):
         login = input("login: ")
         password = input("password: ")
@@ -19,15 +22,18 @@ class AuthManager:
         return res
 
     def guest(self):
-        encryption.load_current_user("guest")
+        print("Вы успешно вошли)")
         return True
+    
+    def user_initialization(self):
+        self.game_logic.current_user = encryption.load_current_user()
 
 class MenuController():
     def __init__(self):
-        self.auth = AuthManager()
         self.game_logic = GameLogic()
+        self.auth = AuthManager(self.game_logic)
         self.check = ["R", "P", "S"]
-        
+    
     def account_1(self):
         columns, _ = shutil.get_terminal_size()
         auth = self.auth
@@ -50,6 +56,7 @@ class MenuController():
                 print("Не понял тебя... :(")
             else:
                 res = action()
+                auth.user_initialization() # заопминаем кто играет сейчас
                 if res == True: # если все успешно, пускаем в игру
                     self.start_menu_2()
 
@@ -71,31 +78,30 @@ class MenuController():
     def game_3(self):
 
         while True:
-            inp = input("Выбери R - камень, P - бумага, S - ножницы.\n> ").upper().strip()
-            if inp in self.check:
+            self.inp = input("Выбери R - камень, P - бумага, S - ножницы.\n> ").upper().strip()
+            if self.inp in self.check:
                 loading()
 
-                res = self.game_logic.rps_choise(inp)
+                res = self.game_logic.rps_choise(self.inp)
                 print(res)
 
                 if res == "Ничья, играем еще раз)":
                     continue
                 else:
                     self.game_4()
-                if inp == "no":
-                    break
-            elif inp == "EXIT":
+                    if self.inp == "no":
+                        break
+            elif self.inp == "EXIT":
                 sys.exit()
             else:
                 print("Нет так не честно, такого варианта нет.")
 
     def game_4(self):
-        global inp
         while True:
-            inp = input("Сыграем еще раз? :) (yes or no)\n> ").lower().strip()
-            if inp == "yes":
+            self.inp = input("Сыграем еще раз? :) (yes or no)\n> ").lower().strip()
+            if self.inp == "yes":
                 break
-            elif inp == "no":
+            elif self.inp == "no":
                 print("Было приятно поиграть с тобой :)")
                 break
             else:
