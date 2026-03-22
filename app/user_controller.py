@@ -1,5 +1,8 @@
 from game import GameLogic
 from animations import loading
+import shutil
+import encryption
+import sys
 
 # trans_data ={
 #     "rock": "камень",
@@ -35,8 +38,58 @@ def game():
             if inp == "no":
                 break
 
-def account(inp):
-    pass
+# def parser():
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument("action", choices=["req", "log", "guest"])
+
+#     action = 
+#     if 
+#     parser.add_argument()
+
+def registration():
+    login = input("login: ")
+    password = input("password: ")
+    res = encryption.register(login, password)
+    return res
+
+def loging():
+    login = input("login: ")
+    password = input("password: ")
+    res = encryption.login(login, password)
+    return res
+
+def guest():
+    res = encryption.load_current_user("guest")
+    return True
+
+def account():
+
+    data = {
+        "reg": registration,
+        "log": loging,
+        "guest": guest,
+        "exit": sys.exit
+    }
+    
+    columns, _ = shutil.get_terminal_size()
+    messege1 = "Приветствую, это игра камень ножницы бумага."
+    messege2 = "Для регистрации введите (reg), для входа (log). Если вы хотите продолжить играть как гость, введите (guest).\n> "
+
+    centrel_m = messege1.center(columns)
+    print(centrel_m)
+    while True:
+        inp = input(messege2)
+
+        action = data.get(inp)
+        if action == None:
+            print("Не понял тебя.")
+        else:
+            res = action()
+            # if res == True:
+            #     break
+    
+        
+
 
 def start_menu():
     """
@@ -58,5 +111,5 @@ def start_menu():
             print("Не знаю такую команду...")
 
 if __name__ == "__main__":
-    start_menu()
+    account()
 

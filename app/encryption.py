@@ -5,6 +5,9 @@ import json
 BASE_DIR = Path(__file__).resolve().parent
 user_data_p = BASE_DIR / "data" / "user_data.json"
 
+# переменная для определеннея текщего пользователя
+current_user = None 
+
 def register(user_name: str, password: str):
     """
     Производит регистрацию нового пользователя.
@@ -19,22 +22,24 @@ def register(user_name: str, password: str):
         data = json.load(f)
 
     if user_name in data:
-        return "Пользователь с таким именем уже существует."
+        print("Пользователь с таким именем уже существует.")
+        return False
     else:
         data[user_name] = hash_p
 
     with open(user_data_p, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
-    inp = input("Желаете произвести автоматический вход под этими данными? (yes or no)").lower().strip()
+
+    inp = input("Желаете произвести автоматический вход под этими данными? (yes or no)\n> ").lower().strip()
     if inp == "yes":
         login()
     else:
-        # возможно, нужно возвращать данные от аккаунта
-        return "Вы были успешно зарегестрированы."
-    
+        print("Вы были успешно зарегестрированы.")
+        return True
+
 
 def login(user_name: str, password: str):
-    global user_data_p
+    global user_data_p, current_user
     hash_p = hashlib.sha224(password.encode()).hexdigest()
     
     with open(user_data_p, "r", encoding="utf-8") as f:
@@ -43,7 +48,18 @@ def login(user_name: str, password: str):
     if user_name in data:
         password = data[user_name]
         if password == hash_p:
-            pass
-            # успешно вошли
+            current_user = user_name
+            print("Успешная авторизация.")
+            return True
+        else:
+            print("Пароль неверный")
+            return False
     else:
-        return "Пользователя с таким именем не существует."
+        print("Пользователя с таким именем не существует.")
+        return False
+
+def load_current_user(user_name: str):
+    global current_user
+    current_user = user_name
+    print("Вы успешно вошли)")
+    return True

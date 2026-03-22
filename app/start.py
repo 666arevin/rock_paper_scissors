@@ -1,3 +1,3 @@
 import user_controller
 
-user_controller.start_menu()
+user_controller.account()
