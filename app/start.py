@@ -1,3 +1,4 @@
-import user_controller
+from user_controller import MenuController
 
-user_controller.account()
+game = MenuController()
+game.account_1()
