@@ -34,7 +34,11 @@ class MenuController():
         self.auth = AuthManager(self.game_logic)
         self.check = ["R", "P", "S"]
     
-    def account_1(self):
+    def account_1(self) -> None:
+        """
+        Это начальное меню, вход в аккаунт. Без авторизации нельзя
+        запустить игру.
+        """
         columns, _ = shutil.get_terminal_size()
         auth = self.auth
         data = {
@@ -60,11 +64,11 @@ class MenuController():
                 if res == True: # если все успешно, пускаем в игру
                     self.start_menu_2()
 
-    def start_menu_2(self):
+    def start_menu_2(self) -> None:
         """
-        Это стартовое меню, при вводе start запуститься игра.
+        Это второй уровень, можно запустить игру, выйти из нее или перейти в профиль.
         """
-        messege1 = "Напишите start для начала или exit для выхода из игры.\n> "
+        messege1 = "Напишите start для начала или exit для выхода из игры. profile для входа в профиль.\n> "
         while True:
             inp = input(messege1).lower().strip()
             if inp == 'exit':
@@ -75,8 +79,10 @@ class MenuController():
             else:
                 print("Не понял тебя... :(")
 
-    def game_3(self):
-
+    def game_3(self) -> None:
+        """
+        Третий уровень, сама игра.
+        """
         while True:
             self.inp = input("Выбери R - камень, P - бумага, S - ножницы.\n> ").upper().strip()
             if self.inp in self.check:
@@ -97,6 +103,9 @@ class MenuController():
                 print("Нет так не честно, такого варианта нет.")
 
     def game_4(self):
+        """
+        Меню выбора после выигрыша или проигрыша.
+        """
         while True:
             self.inp = input("Сыграем еще раз? :) (yes or no)\n> ").lower().strip()
             if self.inp == "yes":

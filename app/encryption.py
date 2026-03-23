@@ -10,7 +10,7 @@ score_data_p = BASE_DIR / "data" / "scores.json"
 
 current_user = "guest"
 
-def register(user_name: str, password: str):
+def register(user_name: str, password: str) -> bool:
     """
     Производит регистрацию нового пользователя.
     Args:
@@ -39,7 +39,14 @@ def register(user_name: str, password: str):
         return True
 
 
-def login(user_name: str, password: str):
+def login(user_name: str, password: str) -> bool:
+    """
+    Производит вход в аккаунт.
+
+    Args:
+        user_name (str): имя пользователя
+        password (str): пароль пользователя
+    """
     global current_user
     hash_p = hashlib.sha224(password.encode()).hexdigest()
     
@@ -60,10 +67,19 @@ def login(user_name: str, password: str):
         return False
 
 
-def load_current_user():
+def load_current_user() -> str:
+    """
+    Функция необходима, чтобы загрузить в класс GameLogic 
+    переменную, хранящую текущего пользователя.
+    Returns:
+        _type_: имя пользователя.
+    """
     return current_user
 
 def check_scores():
+    """
+    Функции подтягивает актуальные данные о существующих пользователей.
+    """
     with open(user_data_p, "r", encoding="utf-8") as f:
         users_data = json.load(f)
 

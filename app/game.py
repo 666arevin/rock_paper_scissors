@@ -1,10 +1,12 @@
 from random import randint
 from pathlib import Path
 import json
-from encryption import load_current_user
 
 
 class GameLogic():
+    """
+    Логика игры.
+    """
     def __init__(self, current_user: str = None):
         # создаем фиксированные пути
         base_path = Path(__file__).resolve().parent
@@ -33,7 +35,11 @@ class GameLogic():
 
     def winner_selection(self, user_inp: str, computer_inp: str) -> str:
         """
-        Определяет победителя, сохраняет результат и возвращает фразу.
+        Определяет победителя, сохраняет результаты, возвращает фразу.
+        Args:
+            user_inp (str): Выбор пользователя
+            computer_inp (str): Выбор екомпьютера
+        Входные данные на английском, название выбранного предмета.
         """
         user_data = self.data.get(user_inp)
         comp_data = self.data.get(computer_inp)
@@ -48,9 +54,13 @@ class GameLogic():
             self.save_game_res(0)
             return "Ничья, играем еще раз)"
         
-    def winner_selection_nosave(self, user_inp, computer_inp):
+    def winner_selection_nosave(self, user_inp, computer_inp) -> str:
         """
-        Определяет победителя и возвращает фразу.
+        Определяет победителя и возвращает фразу. НЕ сохарняет рехультаты.
+        Args:
+            user_inp (str): Выбор пользователя
+            computer_inp (str): Выбор екомпьютера
+        Входные данные на английском, название выбранного предмета.
         """
         user_data = self.data.get(user_inp)
         comp_data = self.data.get(computer_inp)
@@ -63,8 +73,10 @@ class GameLogic():
             return "Ничья, играем еще раз)"
         
     def rps_choise(self, user_inp: str) -> str:
-        """Обрабатывает выбор пользователя и компьютера,
-        и выдает результат.
+        """
+        Обрабатывает выбор пользователя и компьютера
+        Args:
+            user_inp (str): выбор пользователя.
         """
         comp_choise_int = str(randint(0, 3))
         user_choise = self.abbreviations_data.get(user_inp) # преобразую сокращения
@@ -78,7 +90,12 @@ class GameLogic():
             res = self.winner_selection(user_choise, comp_choise)
         return res
     
-    def save_game_res(self, point: int):
+    def save_game_res(self, point: int) -> None:
+        """
+        Сохраняет результаты текущий игры.
+        Args:
+            point (int): очки.
+        """
         with open(self.score_data_p, "r", encoding="utf-8") as f:
             data = json.load(f)
         data[self.current_user].append(point)
