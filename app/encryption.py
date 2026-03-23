@@ -7,7 +7,6 @@ user_data_p = BASE_DIR / "data" / "user_data.json"
 score_data_p = BASE_DIR / "data" / "scores.json"
 
 # переменная для определеннея текщего пользователя
-
 current_user = "guest"
 
 def register(user_name: str, password: str) -> bool:

@@ -20,6 +20,7 @@ class GameLogic():
         self.gen_data = metadata.get("generation_data")
         self.abbreviations_data = metadata.get("abbreviations_data")
         self.data = metadata.get("data")
+        self.tranlate_data = metadata.get("en_ru_trans")
 
         self.current_user = None
         self.points = None
@@ -64,7 +65,10 @@ class GameLogic():
         """
         user_data = self.data.get(user_inp)
         comp_data = self.data.get(computer_inp)
-        print(f"Ты выбрал - {user_inp}, я выбрал - {computer_inp}")
+        user_inp_ru = self.tranlate_data.get(user_data)
+        computer_inp_ru = self.tranlate_data.get(comp_data)
+        
+        print(f"Ты выбрал - {user_inp_ru}, я выбрал - {computer_inp_ru}.")
         if user_data == computer_inp:
             return "Выиграл пользователь"
         elif comp_data == user_inp:

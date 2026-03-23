@@ -1,6 +1,5 @@
 from pathlib import Path
 import json
-import random
 import shutil
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -66,7 +65,7 @@ class ScoreBoard:
         """
         self.load_data()
         if self.user == "guest":
-            print("Авторизуйтись, чтобы смотреть статистику")
+            print("Авторизуйтесь, чтобы сбросить статистику.")
             return
         self.data[self.user] = []
         with open(score_path, "w", encoding="utf-8") as f:
