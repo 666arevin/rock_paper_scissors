@@ -3,11 +3,13 @@ from animations import loading
 import shutil
 import encryption
 import sys
+import scoreboard
 
 
 class AuthManager():
-    def __init__(self, game_logic):
+    def __init__(self, game_logic, stat):
         self.game_logic = game_logic
+        self.stat = stat
 
     def registration(self):
         login = input("login: ")
@@ -26,12 +28,15 @@ class AuthManager():
         return True
     
     def user_initialization(self):
-        self.game_logic.current_user = encryption.load_current_user()
+        cur_user = encryption.load_current_user()
+        self.game_logic.current_user = cur_user
+        self.stat.user = cur_user
 
 class MenuController():
     def __init__(self):
         self.game_logic = GameLogic()
-        self.auth = AuthManager(self.game_logic)
+        self.stat = scoreboard.ScoreBoard()
+        self.auth = AuthManager(self.game_logic, self.stat)
         self.check = ["R", "P", "S"]
     
     def account_1(self) -> None:
@@ -60,7 +65,7 @@ class MenuController():
                 print("Не понял тебя... :(")
             else:
                 res = action()
-                auth.user_initialization() # заопминаем кто играет сейчас
+                auth.user_initialization() # запоминаем кто играет сейчас
                 if res == True: # если все успешно, пускаем в игру
                     self.start_menu_2()
 
@@ -76,6 +81,8 @@ class MenuController():
             elif inp == 'start':
                 print("Начинаем игру :)")
                 self.game_3()
+            elif inp == 'profile':
+                self.profile()
             else:
                 print("Не понял тебя... :(")
 
@@ -115,6 +122,26 @@ class MenuController():
                 break
             else:
                 print("Не опнял тебя :(")
+        
+    def profile(self):
+        data = {
+            "user": self.stat.current_user,
+            "stat": self.stat.user_stat,
+            "stat_grap": self.stat.graphical_stat,
+            "reset": self.stat.reset_points,
+            "exit": sys.exit
+        }
+        messege2 = "Вам доступны следующий функции (back для выхода):\nuser - текущий пользователь\nstat/stat_grap - просмотр статистики\nreset - сброс результатов."
+        print(messege2)
+        while True:
+            inp = input("> ").lower().strip()
+            if inp == 'back':
+                break
+            action = data.get(inp)
+            if action == None:
+                print("Не опнял тебя :(")
+            else:
+                action()
 
 
 if __name__ == "__main__":

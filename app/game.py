@@ -7,7 +7,7 @@ class GameLogic():
     """
     Логика игры.
     """
-    def __init__(self, current_user: str = None):
+    def __init__(self):
         # создаем фиксированные пути
         base_path = Path(__file__).resolve().parent
         metadata_path = base_path / "metadata" / "data.json"
@@ -21,7 +21,7 @@ class GameLogic():
         self.abbreviations_data = metadata.get("abbreviations_data")
         self.data = metadata.get("data")
 
-        self.current_user = current_user
+        self.current_user = None
         self.points = None
 
     def help_to_win(self, user_inp: str) -> str:
@@ -64,7 +64,7 @@ class GameLogic():
         """
         user_data = self.data.get(user_inp)
         comp_data = self.data.get(computer_inp)
-        print(f"Пользователь - {user_inp}, компьютер - {computer_inp}")
+        print(f"Ты выбрал - {user_inp}, я выбрал - {computer_inp}")
         if user_data == computer_inp:
             return "Выиграл пользователь"
         elif comp_data == user_inp:
@@ -101,5 +101,5 @@ class GameLogic():
         data[self.current_user].append(point)
 
         with open(self.score_data_p, "w", encoding="utf-8") as f:
-            json.dump(data, f)
+            json.dump(data, f, indent=4)
 

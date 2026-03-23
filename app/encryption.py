@@ -30,13 +30,16 @@ def register(user_name: str, password: str) -> bool:
 
     with open(user_data_p, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
-
-    inp = input("Желаете произвести автоматический вход под этими данными? (yes or no)\n> ").lower().strip()
-    if inp == "yes":
-        login(user_name, password)
-    else:
-        print("Вы были успешно зарегестрированы.")
-        return True
+    while True:
+        inp = input("Желаете произвести автоматический вход под этими данными? (yes or no)\n> ").lower().strip()
+        if inp == "yes":
+            login(user_name, password)
+            return True
+        elif inp == "no":
+            print("Вы были успешно зарегестрированы.")
+        else:
+            print("Не понял тебя... :(")
+        
 
 
 def login(user_name: str, password: str) -> bool:
@@ -56,11 +59,12 @@ def login(user_name: str, password: str) -> bool:
     if user_name in data:
         password = data[user_name]
         if password == hash_p:
-            current_user = user_name
+            current_user = user_name # запоминаем текущего пользователя
+            check_scores() # подтягиваем акуальных пользователей
             print("Успешная авторизация.")
             return True
         else:
-            print("Пароль неверный")
+            print("Пароль неверный.")
             return False
     else:
         print("Пользователя с таким именем не существует.")
@@ -92,5 +96,3 @@ def check_scores():
     
     with open(score_data_p, "w", encoding="utf-8") as f:
         json.dump(scores_data, f, indent=4, ensure_ascii=False)
-
-check_scores()
